@@ -3,18 +3,14 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import BaiThucHanh1 from "./BaiThucHanh1";
+import HomeComponent from "./component/HomeComponent";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-
-const hello = React.createElement("h1",
-    {id: "text", className: "title"},
-    "Hello")
 root.render(
     <React.StrictMode>
-      <App/>
-        <BaiThucHanh1/>
+        {/*<App/>*/}
+        <HomeComponent/>
     </React.StrictMode>
 );
 
