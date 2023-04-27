@@ -4,13 +4,19 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import HomeComponent from "./component/HomeComponent";
+import Demo from "./component_2/Demo";
+import Test from "./component_2/Test";
+import HomeStudent from "./student/HomeStudent";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
     <React.StrictMode>
         {/*<App/>*/}
-        <HomeComponent/>
+        {/*<HomeComponent/>*/}
+        {/*<Demo/>*/}
+        {/*<Test/>*/}
+        <HomeStudent/>
     </React.StrictMode>
 );
 
