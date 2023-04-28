@@ -1,8 +1,7 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Student} from "./Student";
-import {Field, Form, Formik} from "formik";
-//cách dùng, import và xử lý với Yup
-//cách dùng, import và xử lý với Axios
+import {Link} from "react-router-dom";
+import Nav from "./Nav";
 
 export default function HomeStudent() {
     const [students, setStudents] = useState([
@@ -11,50 +10,23 @@ export default function HomeStudent() {
         new Student(3, "Lực", 25, "Male"),
     ])
 
-    const [student, setStudent] = useState({})
     const [check, setCheck] = useState(true)
+    const [demo, setDemo] = useState(1)
+
+    useEffect(() => {
+        createStudent()
+        setDemo(demo + 1)
+    },[check])
 
     return (
         <>
-            <h1 id={'title'}>Form create</h1>
-            <Formik
-                initialValues={student}
-                onSubmit={(values) => {
-                    if (check) {
-                        createStudent(values)
-                    } else {
-                        update(values)
-                    }
-                }}
-                enableReinitialize={true}>
-                <Form>
-                    <table>
-                        <tr hidden={!check}>
-                            <td><label htmlFor="id">Id</label></td>
-                            <td><Field  name={'id'} id={'id'}></Field><br/></td>
-                        </tr>
-                        <tr>
-                            <td><label htmlFor="name">Name</label></td>
-                            <td><Field name={'name'}></Field><br/></td>
-                        </tr>
-                        <tr>
-                            <td><label htmlFor="age">Age</label></td>
-                            <td><Field name={'age'}></Field><br/></td>
-                        </tr>
-                        <tr>
-                            <td><label htmlFor="gender">Gender</label></td>
-                            <td><Field name={'gender'}></Field><br/></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td>
-                                <button id={'btn'} type={'submit'}>Create</button>
-                            </td>
-                        </tr>
-                    </table>
-                </Form>
-            </Formik>
             <h1>List Student</h1>
+            <button onClick={() => {
+                setCheck(!check)
+                console.log(check)
+            }}>Demo</button>
+            <h1>{demo}</h1>
+            <Link to={"/create"}>Create new student</Link>
             <table style={{border: 1}}>
                 <tr>
                     <th>Id</th>
@@ -72,7 +44,7 @@ export default function HomeStudent() {
                                 <td>{item.age}</td>
                                 <td>{item.gender}</td>
                                 <td>
-                                    <button onClick={() => updateStudent(item.id)}>Update</button>
+                                    {/*<button onClick={() => updateStudent(item.id)}>Update</button>*/}
                                 </td>
                                 <td>
                                     <button onClick={() => deleteStudent(item.id)}>Delete</button>
@@ -85,9 +57,12 @@ export default function HomeStudent() {
         </>
     )
 
-    function createStudent(data) {
-        students.push(data)
-        setStudents([...students])
+    function createStudent() {
+        let student = JSON.parse(localStorage.getItem("student"))
+        if (student != null) {
+            students.push(student)
+            setStudents([...students])
+        }
     }
 
     function deleteStudent(index) {
@@ -97,13 +72,13 @@ export default function HomeStudent() {
         setStudents([...students])
     }
 
-    function updateStudent(index) {
-        let student = getStudentById(index)
-        setStudent(student)
-        setCheck(false)
-        document.getElementById("title").innerHTML = "Form update"
-        document.getElementById("btn").innerHTML = "Update"
-    }
+    // function updateStudent(index) {
+    //     let student = getStudentById(index)
+    //     setStudent(student)
+    //     setCheck(false)
+    //     document.getElementById("title").innerHTML = "Form update"
+    //     document.getElementById("btn").innerHTML = "Update"
+    // }
 
     function update(value) {
         let student = getStudentById(value.id)
