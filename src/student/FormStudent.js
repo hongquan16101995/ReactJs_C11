@@ -2,6 +2,7 @@ import {ErrorMessage, Field, Form, Formik} from "formik";
 import {useState} from "react";
 import * as Yup from "yup";
 import {useNavigate} from "react-router-dom";
+import axios from "axios";
 
 export default function FormStudent() {
     const [student, setStudent] = useState({})
@@ -63,7 +64,8 @@ export default function FormStudent() {
     )
 
     function createStudent(data) {
-        localStorage.setItem("student", JSON.stringify(data))
-        navigate("/")
+        axios.post("http://localhost:8080/students", data).then(() => {
+            navigate("/")
+        })
     }
 }

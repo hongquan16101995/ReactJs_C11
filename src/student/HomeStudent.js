@@ -1,22 +1,22 @@
 import {useEffect, useState} from "react";
-import {Student} from "./Student";
 import {Link} from "react-router-dom";
-import Nav from "./Nav";
+import axios from "axios";
 
 export default function HomeStudent() {
-    const [students, setStudents] = useState([
-        new Student(1, "Sơn", 20, "Male"),
-        new Student(2, "Đoàn", 22, "Male"),
-        new Student(3, "Lực", 25, "Male"),
-    ])
+    const [students, setStudents] = useState([])
 
     const [check, setCheck] = useState(true)
+    const [test, setTest] = useState(true)
     const [demo, setDemo] = useState(1)
 
     useEffect(() => {
-        createStudent()
-        setDemo(demo + 1)
-    },[check])
+        axios.get("http://localhost:8080/students").then(response => {
+            setStudents(response.data)
+        }).catch((err) => {
+            console.log("Bye bye")
+            console.log(err.message)
+        })
+    }, [check, test])
 
     return (
         <>
@@ -24,7 +24,8 @@ export default function HomeStudent() {
             <button onClick={() => {
                 setCheck(!check)
                 console.log(check)
-            }}>Demo</button>
+            }}>Demo
+            </button>
             <h1>{demo}</h1>
             <Link to={"/create"}>Create new student</Link>
             <table style={{border: 1}}>
@@ -67,9 +68,10 @@ export default function HomeStudent() {
 
     function deleteStudent(index) {
         let student = getStudentById(index)
-        let i = students.indexOf(student)
-        students.splice(i, 1)
-        setStudents([...students])
+        axios.delete(`http://localhost:8080/students/${student.id}`).then(() => {
+                setTest(!test)
+            }
+        )
     }
 
     // function updateStudent(index) {
