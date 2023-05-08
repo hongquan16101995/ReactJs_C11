@@ -1,7 +1,9 @@
-export default function Nav() {
+import {Link} from "react-router-dom";
+
+export default function Nav(props) {
     return (
         <>
-            <h1>Đây là trang Student</h1>
+            <h1><Link to={"/login"}>{props.name}</Link></h1>
         </>
     )
 }
